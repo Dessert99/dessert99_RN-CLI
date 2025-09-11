@@ -1,44 +1,51 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
 import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+  View,
+  TouchableHighlight,
+  TextInput,
+  ScrollView,
+  Button,
+  Alert,
+  Text,
+  Pressable,
+} from "react-native";
+import { useState } from "react";
+import { StyleSheet } from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
-
+const App = () => {
+  const [text, setText] = useState("");
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
+      <SafeAreaView>
+        <ScrollView>
+          <TextInput
+            value={text}
+            onChangeText={setText}
+          />
+          <Button
+            title='Press me'
+            color={"green"}
+            onPress={() => Alert.alert("버튼 연습")}
+          />
+          <Pressable onPress={() => Alert.alert("Pressable연습")}>
+            <TouchableHighlight onPress={() => Alert.alert("Touchable연습")}>
+              <View style={styles.button}>
+                <Text>Touch Here</Text>
+              </View>
+            </TouchableHighlight>
+            <Text>Im pressable!</Text>
+          </Pressable>
+        </ScrollView>
+      </SafeAreaView>
     </SafeAreaProvider>
   );
-}
-
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
-
-  return (
-    <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
-    </View>
-  );
-}
+};
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  button: {
+    alignItems: "center",
+    backgroundColor: "#DDDDDD",
+    padding: 10,
   },
 });
 

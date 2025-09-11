@@ -1,5 +1,23 @@
+// tsconfig.json (React Native)
 {
   "extends": "@react-native/typescript-config",
-  "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["**/node_modules", "**/Pods"]
+  "compilerOptions": {
+    // 팀·프로젝트 공통
+    "strict": true,
+    "jsx": "react-jsx", // RN 0.71+에서 OK
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+
+    // 경로 별칭
+    "baseUrl": ".",
+    "paths": { "@/*": ["src/*"] },
+
+    // 편의/품질(빨간줄 원하면 켜기)
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src", "index.ts", "index.tsx"],
+  "exclude": ["node_modules", "build"]
 }
