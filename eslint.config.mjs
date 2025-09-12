@@ -61,9 +61,6 @@ export default defineConfig(
       // - eslint-plugin-import가 'no-unresolved' 등을 판단할 때 사용
       "import/resolver": {
         typescript: {
-          // tsconfig.json의 "paths"를 활용하여 @/* 별칭 해석
-          alwaysTryTypes: true,
-          //중요: 불리언 true 금지. 문자열/배열로 tsconfig 경로를 지정해야 합니다.
           project: ["./tsconfig.json"],
         },
         "react-native": {
