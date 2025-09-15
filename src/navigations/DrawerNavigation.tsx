@@ -3,14 +3,18 @@ import { createStaticNavigation } from "@react-navigation/native";
 
 // 스크린
 import CalendarScreen from "../screens/calendar/CalendarScreen";
-import FeedListScreen from "../screens/feed/FeedListScreen";
-import MapHomeScreen from "../screens/map/MapHomeScreen";
+
+// 스택
+import { MapStack } from "./MapNavigation";
+import { FeedStack } from "./FeedNavigation";
 
 const MainDrawer = createDrawerNavigator({
   screens: {
-    Map: MapHomeScreen,
-    Feed: FeedListScreen,
-    Calendar: CalendarScreen,
+    Map: MapStack,
+    Feed: FeedStack,
+    Calendar: {
+      screen: CalendarScreen,
+    },
   },
 });
 

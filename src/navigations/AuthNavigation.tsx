@@ -5,18 +5,19 @@ import { createStackNavigator } from "@react-navigation/stack";
 import AuthHomeScreen from "../screens/auth/AuthHomeScreen";
 import LoginScreen from "../screens/auth/LoginScreen";
 import SignUpScreen from "../screens/auth/SignUpScreen";
+import { colors } from "../constants/colors";
 
 // 스크린으로 스택 쌓기
 const AuthStack = createStackNavigator({
   screenOptions: {
     headerTitleAlign: "center", // 헤더 text 정렬
     headerBackButtonDisplayMode: "minimal", // 이전 스크린 이름 없애기
-    headerTintColor: "black", // 헤더 text 색상
+    headerTintColor: colors.BLACK, // 헤더 text 색상
 
     // 헤더 배경 스타일
     headerStyle: {
-      backgroundColor: "white",
-      shadowColor: "black",
+      backgroundColor: colors.WHITE,
+      shadowColor: colors.BLACK,
     },
 
     //헤더 text 스타일
@@ -26,7 +27,7 @@ const AuthStack = createStackNavigator({
 
     // 스택 내 모든 스크린 스타일
     cardStyle: {
-      backgroundColor: "white",
+      backgroundColor: colors.WHITE,
     },
   },
 
