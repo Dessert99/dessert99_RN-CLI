@@ -1,0 +1,75 @@
+import {
+  DrawerContentComponentProps,
+  DrawerContentScrollView,
+  DrawerItemList,
+} from "@react-navigation/drawer";
+import { Text, View, StyleSheet, Image, Pressable } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { colors } from "../constants/colors";
+
+const CustomDrawerContent = (props: DrawerContentComponentProps) => {
+  return (
+    <SafeAreaView style={styles.container}>
+      <DrawerContentScrollView
+        {...props}
+        scrollEnabled={false}
+        contentContainerStyle={styles.contentContainer}>
+        <Pressable style={styles.porfileContainer}>
+          <View style={styles.userImageContainer}>
+            <Image
+              source={require("../assets/default-user.png")}
+              style={styles.userImage}
+            />
+          </View>
+          <Text style={styles.nickname}>닉네임</Text>
+        </Pressable>
+        <DrawerItemList {...props} />
+      </DrawerContentScrollView>
+      <View style={styles.bottomContainer}>
+        <Text style={styles.menuText}>설정</Text>
+      </View>
+    </SafeAreaView>
+  );
+};
+
+export default CustomDrawerContent;
+
+const styles = StyleSheet.create({
+  container: {
+    //드로어 꽉 채우기
+    flex: 1,
+  },
+  contentContainer: {
+    gap: 5,
+    marginTop: 30,
+  },
+  porfileContainer: {
+    alignItems: "center",
+    marginBottom: 30,
+    gap: 5,
+  },
+  userImageContainer: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+  },
+  userImage: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 35,
+  },
+  nickname: {
+    fontSize: 15,
+  },
+
+  bottomContainer: {
+    justifyContent: "flex-end",
+    flexDirection: "row",
+    padding: 20,
+    borderTopWidth: 1,
+    borderTopColor: colors.GRAY_200,
+  },
+  menuText: {
+    fontSize: 15,
+  },
+});

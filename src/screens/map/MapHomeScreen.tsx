@@ -1,10 +1,13 @@
 import { Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import DrawerButton from "../../components/DrawerButton";
 
 const MapHomeScreen = () => {
   return (
-    <View>
+    <SafeAreaView>
       <Text>MapHomeScreen</Text>
-    </View>
+      <DrawerButton />
+    </SafeAreaView>
   );
 };
 

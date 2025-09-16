@@ -90,7 +90,6 @@ export default defineConfig(
 
     // 팀 취향/현실적인 RN 관례에 맞춘 최소 커스터마이징
     rules: {
-      // TS : 선언용 namespace만 허용
       "@typescript-eslint/no-namespace": ["error", { allowDeclarations: true }],
       // React 17+에서는 JSX에 React 스코프 불필요
       "react/react-in-jsx-scope": "off",
