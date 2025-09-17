@@ -41,11 +41,11 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     alignItems: "center",
+    justifyContent: "center",
     flex: 1,
   },
   image: {
     width: 200,
-    height: "100%",
   },
   buttonContainer: {
     flex: 1,
