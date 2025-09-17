@@ -1,10 +1,3 @@
-/**
- * 참고:
- * - Airbnb의 스타일 선호는 주로 ESLint 규칙으로 제공됨.
- * - 우리는 eslint-config-prettier로 ESLint의 '포맷 관련 규칙'을 끔.
- * => 최종 포맷 소스: Prettier (이 파일의 값이 실제로 적용됨)
- */
-
 module.exports = {
   /**
    * JSX 속성에서 작은따옴표(') 사용
@@ -43,5 +36,5 @@ module.exports = {
    * - 파일에 이미 사용 중인 줄바꿈(LF/CRLF)을 따라감
    * - 다른 OS와 협업 시 유용 (고정하려면 'lf' 또는 'crlf' 사용)
    */
-  endOfLine: 'auto',
+  endOfLine: "auto",
 };

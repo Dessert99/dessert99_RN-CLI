@@ -10,14 +10,14 @@
     "forceConsistentCasingInFileNames": true,
 
     // 경로 별칭
-    // "baseUrl": ".",
-    // "paths": { "@/*": ["src/*"] },
+    "baseUrl": ".",
+    "paths": { "@/*": ["src/*"] },
 
     // 편의/품질(빨간줄 원하면 켜기)
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "index.ts", "index.tsx"],
-  "exclude": ["node_modules", "build"]
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["**/node_modules", "**/Pods"]
 }
