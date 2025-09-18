@@ -9,16 +9,17 @@ import {
 
 interface InputFieldProps extends TextInputProps {
   error?: string;
+  touched?: boolean;
 }
 
-const InputField = ({ error, ...props }: InputFieldProps) => {
+const InputField = ({ error, touched, ...props }: InputFieldProps) => {
   return (
     <View>
       <TextInput
         style={[styles.input, Boolean(error) && styles.inputError]}
         {...props}
       />
-      {Boolean(error) && <Text style={styles.error}>{error}</Text>}
+      {touched && Boolean(error) && <Text style={styles.error}>{error}</Text>}
     </View>
   );
 };
