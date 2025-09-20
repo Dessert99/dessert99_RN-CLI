@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface UseFormProps<T> {
   initailValue: T; // 제네릭
+  validate: (values: T) => Record<keyof T, string>; // T 타입 값의 각 필드를 검사해 {필드명: 에러문구} 객체로 돌려주는 것
 }
 
-function useForm<T>({ initailValue }: UseFormProps<T>) {
+function useForm<T>({ initailValue, validate }: UseFormProps<T>) {
   // 입력값 상태
   const [values, setValues] = useState(initailValue);
 
@@ -12,7 +13,7 @@ function useForm<T>({ initailValue }: UseFormProps<T>) {
   const [touched, setTouched] = useState<Record<string, boolean>>({});
 
   //에러 상태
-  const [errors, setErrors] = useState<Record<string, boolean>>({});
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   //
   const handleChangeValue = (name: keyof T, text: string) => {
@@ -33,6 +34,13 @@ function useForm<T>({ initailValue }: UseFormProps<T>) {
     };
     return { value, onChangeText, onBlur };
   };
+
+  // 에러 객체 갱신. 값이 바뀔 때 체크해준다.
+  useEffect(() => {
+    const newErrors = validate(values);
+    setErrors(newErrors);
+    console.log(newErrors);
+  }, [validate, values]);
 
   return { values, touched, errors, getTextInputProps };
 }

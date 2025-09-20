@@ -3,6 +3,7 @@ import InputField from "@/components/InputField";
 import { StyleSheet, View } from "react-native";
 import { colors } from "@/constants/colors";
 import useForm from "@/hooks/useForm";
+import { validateSignUp } from "@/utils/validation";
 
 const SignUpScreen = () => {
   // 초기값 넣어준다.
@@ -12,13 +13,19 @@ const SignUpScreen = () => {
       password: "",
       passwordConfirm: "",
     },
+    validate: validateSignUp,
   });
+  const handleSubmit = () => {
+    console.log("회원가입 로그", signup.values);
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
         <InputField
+          autoFocus
           placeholder='이메일'
+          error={signup.errors.email}
           placeholderTextColor={colors.GREEN_400} // placeholder색상
           touched={signup.touched.email}
           selectionColor={colors.PINK_500} // 선택 영역 색상
@@ -29,6 +36,7 @@ const SignUpScreen = () => {
         />
         <InputField
           placeholder='비밀번호'
+          error={signup.errors.password}
           placeholderTextColor={colors.GREEN_400}
           touched={signup.touched.password}
           selectionColor={colors.PINK_500}
@@ -41,6 +49,8 @@ const SignUpScreen = () => {
         />
         <InputField
           placeholder='비밀번호 확인'
+          onSubmitEditing={handleSubmit}
+          error={signup.errors.passwordConfirm}
           placeholderTextColor={colors.GREEN_400}
           touched={signup.touched.passwordConfirm}
           selectionColor={colors.PINK_500}
@@ -58,6 +68,7 @@ const SignUpScreen = () => {
         label='회원가입'
         variant='filled'
         size='large'
+        onPress={handleSubmit}
       />
     </View>
   );
