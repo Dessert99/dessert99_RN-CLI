@@ -19,9 +19,9 @@ const InputField = ({ ref, error, touched, ...props }: InputFieldProps) => {
     <View>
       <TextInput
         ref={ref}
-        autoCapitalize='none' //?
-        spellCheck={false} //?
-        autoCorrect={false} //?
+        autoCapitalize='none' // 자동 대문자화를 끈다.
+        spellCheck={false} // ios에서 맞춤법 밑줄 비활성
+        autoCorrect={false} // 자동 교정/제안 끔
         style={[styles.input, touched && Boolean(error) && styles.inputError]}
         {...props}
       />
