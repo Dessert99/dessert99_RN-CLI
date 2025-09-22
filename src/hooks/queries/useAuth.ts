@@ -83,3 +83,21 @@ export function useGetProfile(queryOptions?: UseQueryCustomOptions<Profile>) {
     ...queryOptions,
   });
 }
+
+// 훅들을 묶어서 사용하기
+export function useAuth() {
+  const signupMutation = useSignup();
+  const loginMutation = useLogin();
+  const refreshTokenQuery = useGetRefreshTokeny();
+
+  // 로그인이 되었는지 상태
+  const { isSuccess: isLogin } = useGetProfile({
+    enabled: refreshTokenQuery.isSuccess, //true 일때만 useGetProfile이 호출된다. refreshToken쿼리가 성공할 때 프로필 요청 로직 실행
+  });
+
+  return {
+    signupMutation,
+    loginMutation,
+    isLogin,
+  };
+}
