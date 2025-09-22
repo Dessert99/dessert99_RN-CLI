@@ -1,4 +1,5 @@
 import { getAccessToken, getProfile, postLogin, postSignup } from "@/api/auth";
+import { queryClient } from "@/api/queryClient";
 import { numbers } from "@/constants/numbers";
 import { UseMutationCustomOptions, UseQueryCustomOptions } from "@/types/api";
 import { Profile } from "@/types/domain";
@@ -31,6 +32,10 @@ export const useLogin = (mutationOptions?: UseMutationCustomOptions) => {
     onSuccess: async ({ accessToken, refreshToken }) => {
       setHeader("Authorization", `Bearer ${accessToken}`);
       await setEncryptStorage("refreshToken", refreshToken);
+      // 로그인 후에 토큰 갱신 훅이 실행되도록 만들기
+      queryClient.fetchQuery({
+        queryKey: ["auth", "getAccessToken"],
+      });
     },
     ...mutationOptions,
   });
@@ -73,7 +78,7 @@ export const useGetRefreshTokeny = () => {
 // 로그인 성공 시 내정보를 받아오는 훅
 export function useGetProfile(queryOptions?: UseQueryCustomOptions<Profile>) {
   return useQuery({
-    queryKey: ["auth", getProfile],
+    queryKey: ["auth", "getProfile"],
     queryFn: getProfile,
     ...queryOptions,
   });
