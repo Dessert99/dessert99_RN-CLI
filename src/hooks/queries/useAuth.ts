@@ -1,5 +1,12 @@
-import { getAccessToken, getProfile, postLogin, postSignup } from "@/api/auth";
+import {
+  getAccessToken,
+  getProfile,
+  logout,
+  postLogin,
+  postSignup,
+} from "@/api/auth";
 import { queryClient } from "@/api/queryClient";
+import { queryKeys, storageKeys } from "@/constants/keys";
 import { numbers } from "@/constants/numbers";
 import { UseMutationCustomOptions, UseQueryCustomOptions } from "@/types/api";
 import { Profile } from "@/types/domain";
@@ -31,10 +38,10 @@ export const useLogin = (mutationOptions?: UseMutationCustomOptions) => {
     mutationFn: postLogin,
     onSuccess: async ({ accessToken, refreshToken }) => {
       setHeader("Authorization", `Bearer ${accessToken}`);
-      await setEncryptStorage("refreshToken", refreshToken);
+      await setEncryptStorage(storageKeys.REFRESH_TOKEN, refreshToken);
       // 로그인 후에 토큰 갱신 훅이 실행되도록 만들기
       queryClient.fetchQuery({
-        queryKey: ["auth", "getAccessToken"],
+        queryKey: [queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN],
       });
     },
     ...mutationOptions,
@@ -44,7 +51,7 @@ export const useLogin = (mutationOptions?: UseMutationCustomOptions) => {
 //토큰 갱신 훅
 export const useGetRefreshTokeny = () => {
   const { data, isSuccess, isError } = useQuery({
-    queryKey: ["auth", getAccessToken],
+    queryKey: [queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN],
     queryFn: getAccessToken,
     staleTime: numbers.ACCESS_TOKEN_REFRESH_TIME,
     refetchInterval: numbers.ACCESS_TOKEN_REFRESH_TIME, // 시간 주기에 따라 리패치
@@ -55,7 +62,7 @@ export const useGetRefreshTokeny = () => {
     (async () => {
       if (isSuccess) {
         setHeader("Authorization", `Bearer ${data.accessToken}`);
-        await setEncryptStorage("refreshToken", data.refreshToken);
+        await setEncryptStorage(storageKeys.REFRESH_TOKEN, data.refreshToken);
       }
     })();
     console.log("/queries/useAuth.ts : 리프레시 갱신 로직-Success");
@@ -66,7 +73,7 @@ export const useGetRefreshTokeny = () => {
     (async () => {
       if (isError) {
         removeHeader("Authorization");
-        await removeEncryptStorage("refreshToken");
+        await removeEncryptStorage(storageKeys.REFRESH_TOKEN);
       }
     })();
     console.log("/queries/useAuth.ts : 리프레시 갱신 로직-Error");
@@ -78,9 +85,22 @@ export const useGetRefreshTokeny = () => {
 // 로그인 성공 시 내정보를 받아오는 훅
 export function useGetProfile(queryOptions?: UseQueryCustomOptions<Profile>) {
   return useQuery({
-    queryKey: ["auth", "getProfile"],
+    queryKey: [queryKeys.AUTH, queryKeys.GET_PROFILE],
     queryFn: getProfile,
     ...queryOptions,
+  });
+}
+
+//로그아웃
+export function useLogout(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: logout,
+    onSuccess: async () => {
+      removeHeader("Authorization"); // 헤더 지우고
+      removeEncryptStorage(storageKeys.REFRESH_TOKEN); // 토큰 지우고
+      queryClient.resetQueries({ queryKey: [queryKeys.AUTH] }); // 쿼리키가 auth인 쿼리들 지워주기
+    },
+    ...mutationOptions,
   });
 }
 
@@ -91,13 +111,23 @@ export function useAuth() {
   const refreshTokenQuery = useGetRefreshTokeny();
 
   // 로그인이 되었는지 상태
-  const { isSuccess: isLogin } = useGetProfile({
+  const { data, isSuccess: isLogin } = useGetProfile({
     enabled: refreshTokenQuery.isSuccess, //true 일때만 useGetProfile이 호출된다. refreshToken쿼리가 성공할 때 프로필 요청 로직 실행
   });
 
+  const logoutMutation = useLogout();
+
   return {
+    auth: {
+      id: data?.id || "",
+      nickname: data?.nickname || "",
+      email: data?.email || "",
+      imageUri: data?.imageUri || "",
+    },
+
     signupMutation,
     loginMutation,
     isLogin,
+    logoutMutation,
   };
 }

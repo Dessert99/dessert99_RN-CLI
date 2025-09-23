@@ -4,8 +4,10 @@ import { StyleSheet, View } from "react-native";
 import { colors } from "@/constants/colors";
 import useForm from "@/hooks/useForm";
 import { validateSignUp } from "@/utils/validation";
+import { useAuth } from "@/hooks/queries/useAuth";
 
 const SignUpScreen = () => {
+  const { signupMutation, loginMutation } = useAuth();
   // 초기값 넣어준다.
   const signup = useForm({
     initailValue: {
@@ -16,6 +18,14 @@ const SignUpScreen = () => {
     validate: validateSignUp,
   });
   const handleSubmit = () => {
+    const { email, password } = signup.values;
+
+    signupMutation.mutate(
+      { email, password },
+      //회원가입하면 자동 로그인
+      { onSuccess: () => loginMutation.mutate({ email, password }) }
+    );
+
     console.log("회원가입 로그", signup.values);
   };
 

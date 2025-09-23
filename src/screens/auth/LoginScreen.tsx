@@ -8,8 +8,10 @@ import CustomButton from "@/components/CustomButton";
 import { validateLogin } from "@/utils/validation";
 //커스텀 훅
 import useForm from "@/hooks/useForm";
+import { useAuth } from "@/hooks/queries/useAuth";
 
 const LoginScreen = () => {
+  const { loginMutation } = useAuth();
   const passwordRef = useRef<TextInput | null>(null);
   const login = useForm({
     initailValue: {
@@ -21,7 +23,7 @@ const LoginScreen = () => {
 
   // 제출 함수
   const handleSubmit = () => {
-    console.log("로그인 정보", login.values);
+    loginMutation.mutate(login.values);
   };
 
   return (
