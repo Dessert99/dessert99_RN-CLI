@@ -10,7 +10,7 @@ type Navigation = DrawerNavigationProp<MainDrawerParamList>;
 
 interface DrawerButtonProps {
   color?: string;
-  style?: StyleProp<ViewStyle>; // 스타일을 props로 넘겨받을 수 있다.
+  style?: StyleProp<ViewStyle>; //View 스타일을 타입 안전하게 받고, 배열/객체/null 등 어떤 형태로 넘겨도 에러 없이 받을 수 있게 하는 타입
 }
 
 const DrawerButton = ({ style, color = colors.BLACK }: DrawerButtonProps) => {
