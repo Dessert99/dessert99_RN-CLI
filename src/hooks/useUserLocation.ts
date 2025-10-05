@@ -20,6 +20,7 @@ export function useUserLocation() {
       (info) => {
         console.log("info", info);
         setUserLocation(info.coords);
+        setUserLocationError(false);
       },
       //에러
       () => {
