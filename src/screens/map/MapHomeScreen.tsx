@@ -3,9 +3,9 @@ import { colors } from "@/constants/colors";
 import { StyleSheet, View, Pressable } from "react-native";
 import FontAwesome6 from "@react-native-vector-icons/fontawesome6";
 
-import MapView, { LatLng, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { LatLng, Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useUserLocation } from "@/hooks/useUserLocation";
 import { numbers } from "@/constants/numbers";
 import { usePermission } from "@/hooks/usePermission";
@@ -15,6 +15,8 @@ const MapHomeScreen = () => {
   const inset = useSafeAreaInsets(); // 노치 영역 길이 구하기
   const mapRef = useRef<MapView>(null); // 맵 이동을 위한 ref. MapView는 ref가 가리키는 “컴포넌트 인스턴스 타입”이다. MapView의 인스턴스 메서드를 타입 안정성 있게 쓸 수 있다.
   const { userLocation, userLocationError } = useUserLocation(); //훅으로 분리
+  const [selectLocation, setSelectLocation] = useState<LatLng | null>();
+
   usePermission("LOCATION"); // 권한 훅 사용
 
   // 지도 카메라를 주어진 좌표로 부드럽게 이동시키는 헬퍼(줌/델타 포함)
@@ -45,6 +47,7 @@ const MapHomeScreen = () => {
         style={[styles.drawerButton, { top: inset.top + 10 }]} // 노치 영역만큼 top
         color={colors.WHITE}
       />
+
       <MapView
         googleMapId='75c4ced96389b9f59913bce7'
         ref={mapRef} // ref연결
@@ -55,7 +58,12 @@ const MapHomeScreen = () => {
         }}
         style={styles.container}
         provider={PROVIDER_GOOGLE}
-      />
+        //꾹 누르면 마커 생성
+        onLongPress={({ nativeEvent }) =>
+          setSelectLocation(nativeEvent.coordinate)
+        }>
+        {selectLocation && <Marker coordinate={selectLocation} />}
+      </MapView>
       <View
         style={styles.buttonList} //앵커. 버튼이 하나라면 Pressable에 해도 된다.
       >
