@@ -14,7 +14,7 @@ const MapHomeScreen = () => {
   const inset = useSafeAreaInsets(); // 노치 영역 길이 구하기
   const mapRef = useRef<MapView>(null); // 맵 이동을 위한 ref. MapView는 ref가 가리키는 “컴포넌트 인스턴스 타입”이다. MapView의 인스턴스 메서드를 타입 안정성 있게 쓸 수 있다.
   const { userLocation, userLocationError } = useUserLocation(); //훅으로 분리
-  usePermission(); // 권한 훅 사용
+  usePermission("LOCATION"); // 권한 훅 사용
 
   // 지도 카메라를 주어진 좌표로 부드럽게 이동시키는 헬퍼(줌/델타 포함)
   const moveMapView = (coordinate: LatLng) => {
