@@ -10,6 +10,7 @@ import { useUserLocation } from "@/hooks/useUserLocation";
 import { numbers } from "@/constants/numbers";
 import { usePermission } from "@/hooks/usePermission";
 import Toast from "react-native-toast-message";
+import CustomMarker from "@/components/CustomMarker";
 
 const MapHomeScreen = () => {
   const inset = useSafeAreaInsets(); // 노치 영역 길이 구하기
@@ -62,6 +63,12 @@ const MapHomeScreen = () => {
         onLongPress={({ nativeEvent }) =>
           setSelectLocation(nativeEvent.coordinate)
         }>
+        <CustomMarker
+          coordinate={{ latitude: 37.5962, longitude: 127.0553 }}
+          color={colors.BLUE_400}
+          score={3}
+        />
+
         {selectLocation && <Marker coordinate={selectLocation} />}
       </MapView>
       <View
