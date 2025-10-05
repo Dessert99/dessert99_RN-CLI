@@ -42,6 +42,11 @@ const MapHomeScreen = () => {
     moveMapView(userLocation);
   };
 
+  // 마커 클릭 핸들러
+  const handlePressMarker = (coordinate: LatLng) => {
+    moveMapView(coordinate);
+  };
+
   return (
     <>
       <DrawerButton
@@ -69,6 +74,24 @@ const MapHomeScreen = () => {
             color: colors.PINK_400,
             score: 3,
             coordinate: {
+              latitude: 37.5862,
+              longitude: 127.0553,
+            },
+          },
+          {
+            id: 2,
+            color: colors.BLUE_400,
+            score: 1,
+            coordinate: {
+              latitude: 37.5762,
+              longitude: 127.0553,
+            },
+          },
+          {
+            id: 3,
+            color: colors.PINK_500,
+            score: 4,
+            coordinate: {
               latitude: 37.5962,
               longitude: 127.0553,
             },
@@ -78,6 +101,7 @@ const MapHomeScreen = () => {
             key={marker.id}
             color={marker.color}
             coordinate={marker.coordinate}
+            onPress={() => handlePressMarker(marker.coordinate)}
           />
         ))}
 
