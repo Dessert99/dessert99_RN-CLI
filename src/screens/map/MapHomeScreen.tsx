@@ -1,7 +1,8 @@
 import DrawerButton from "@/components/DrawerButton";
 import { colors } from "@/constants/colors";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View, Pressable } from "react-native";
 import Geolocation from "@react-native-community/geolocation";
+import FontAwesome6 from "@react-native-vector-icons/fontawesome6";
 
 import MapView, { LatLng, PROVIDER_GOOGLE } from "react-native-maps";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -37,6 +38,18 @@ const MapHomeScreen = () => {
         style={styles.container}
         provider={PROVIDER_GOOGLE}
       />
+      <View
+        style={styles.buttonList} //앵커. 버튼이 하나라면 Pressable에 해도 된다.
+      >
+        <Pressable style={styles.mapButton}>
+          <FontAwesome6
+            name='location-crosshairs'
+            iconStyle='solid'
+            size={25}
+            color={colors.WHITE}
+          />
+        </Pressable>
+      </View>
     </>
   );
 };
@@ -55,6 +68,22 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderTopRightRadius: 50, // 모서리
     borderBottomRightRadius: 50, // 모서리
+    boxShadow: "1px 1px 3px rgba(0,0,0, 0.5)",
+  },
+  buttonList: {
+    position: "absolute",
+    bottom: 30,
+    right: 20,
+    zIndex: 1,
+  },
+  mapButton: {
+    backgroundColor: colors.PINK_700,
+    height: 45,
+    width: 45,
+    margin: 10,
+    borderRadius: 45,
+    justifyContent: "center",
+    alignItems: "center",
     boxShadow: "1px 1px 3px rgba(0,0,0, 0.5)",
   },
 });
