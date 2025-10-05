@@ -1,21 +1,17 @@
 import DrawerButton from "@/components/DrawerButton";
 import { colors } from "@/constants/colors";
 import { StyleSheet, View, Pressable } from "react-native";
-import Geolocation from "@react-native-community/geolocation";
 import FontAwesome6 from "@react-native-vector-icons/fontawesome6";
 
 import MapView, { LatLng, PROVIDER_GOOGLE } from "react-native-maps";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
+import { useUserLocation } from "@/hooks/useUserLocation";
 
 const MapHomeScreen = () => {
   const inset = useSafeAreaInsets(); // 노치 영역 길이 구하기
-  const [userLocation, setUserLocation] = useState<LatLng>({
-    latitude: 37.5962,
-    longitude: 127.0553,
-  }); //사용자 위치
-  const [userLocationError, setUserLocationError] = useState(false);
   const mapRef = useRef<MapView>(null); // 맵 이동을 위한 ref. MapView는 ref가 가리키는 “컴포넌트 인스턴스 타입”이다. MapView의 인스턴스 메서드를 타입 안정성 있게 쓸 수 있다.
+  const { userLocation, userLocationError } = useUserLocation(); //훅으로 분리
 
   // 지도 카메라를 주어진 좌표로 부드럽게 이동시키는 헬퍼(줌/델타 포함)
   const moveMapView = (coordinate: LatLng) => {
@@ -35,24 +31,6 @@ const MapHomeScreen = () => {
     }
     moveMapView(userLocation);
   };
-
-  useEffect(() => {
-    Geolocation.getCurrentPosition(
-      //성공
-      (info) => {
-        console.log("info", info);
-        setUserLocation(info.coords);
-      },
-      //에러
-      () => {
-        setUserLocationError(true);
-      },
-      //옵션
-      {
-        enableHighAccuracy: true, // 높은 정확성
-      }
-    );
-  }, []);
 
   return (
     <>
