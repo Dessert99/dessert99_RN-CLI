@@ -3,7 +3,12 @@ import { colors } from "@/constants/colors";
 import { StyleSheet, View, Pressable } from "react-native";
 import FontAwesome6 from "@react-native-vector-icons/fontawesome6";
 
-import MapView, { LatLng, Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, {
+  LatLng,
+  Marker,
+  PROVIDER_GOOGLE,
+  Region,
+} from "react-native-maps";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRef, useState } from "react";
 import { useUserLocation } from "@/hooks/useUserLocation";
@@ -17,6 +22,7 @@ const MapHomeScreen = () => {
   const mapRef = useRef<MapView>(null); // 맵 이동을 위한 ref. MapView는 ref가 가리키는 “컴포넌트 인스턴스 타입”이다. MapView의 인스턴스 메서드를 타입 안정성 있게 쓸 수 있다.
   const { userLocation, userLocationError } = useUserLocation(); //훅으로 분리
   const [selectLocation, setSelectLocation] = useState<LatLng | null>();
+  const [regionDelta, setRegionDelta] = useState();
 
   usePermission("LOCATION"); // 권한 훅 사용
 
@@ -47,6 +53,9 @@ const MapHomeScreen = () => {
     moveMapView(coordinate);
   };
 
+  // 지도 영역 변경 감지를 위한 핸들러
+  const handleChangeDelta = (region: Region) => {};
+
   return (
     <>
       <DrawerButton
@@ -67,7 +76,9 @@ const MapHomeScreen = () => {
         //꾹 누르면 마커 생성
         onLongPress={({ nativeEvent }) =>
           setSelectLocation(nativeEvent.coordinate)
-        }>
+        }
+        onRegionChangeComplete={handleChangeDelta} //지도의 영역(위치나 확대 정도)이 완전히 변경된 후 호출되는 콜백
+      >
         {[
           {
             id: 1,
