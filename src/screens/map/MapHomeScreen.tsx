@@ -7,6 +7,7 @@ import MapView, { LatLng, PROVIDER_GOOGLE } from "react-native-maps";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRef } from "react";
 import { useUserLocation } from "@/hooks/useUserLocation";
+import { numbers } from "@/constants/numbers";
 
 const MapHomeScreen = () => {
   const inset = useSafeAreaInsets(); // 노치 영역 길이 구하기
@@ -18,8 +19,7 @@ const MapHomeScreen = () => {
     // Region에는 델타라는 것도 보내줘야 한다. (델타 = 지도의 확대 정도)
     mapRef.current?.animateToRegion({
       ...coordinate,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
+      ...numbers.INITIAL_DELTA, // 초기 델타값
     });
   };
 
@@ -43,8 +43,7 @@ const MapHomeScreen = () => {
         //초기 위치 설정 (델타와 함께)
         region={{
           ...userLocation,
-          latitudeDelta: 0.0922, //델타
-          longitudeDelta: 0.0421, //델타
+          ...numbers.INITIAL_DELTA, //초기 델타값
         }}
         style={styles.container}
         provider={PROVIDER_GOOGLE}
