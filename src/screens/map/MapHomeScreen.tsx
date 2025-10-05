@@ -9,6 +9,7 @@ import { useRef } from "react";
 import { useUserLocation } from "@/hooks/useUserLocation";
 import { numbers } from "@/constants/numbers";
 import { usePermission } from "@/hooks/usePermission";
+import Toast from "react-native-toast-message";
 
 const MapHomeScreen = () => {
   const inset = useSafeAreaInsets(); // 노치 영역 길이 구하기
@@ -28,7 +29,11 @@ const MapHomeScreen = () => {
   // "내 위치" 버튼 눌렀을 때: 권한/에러 확인 후 사용자 위치로 이동 핸들러
   const handlePressUserLocation = () => {
     if (userLocationError) {
-      //위치 권한을 허용해주세요.
+      Toast.show({
+        type: "error",
+        text1: "위치 권한을 허용해주세요.",
+        position: "bottom",
+      });
       return;
     }
     moveMapView(userLocation);
