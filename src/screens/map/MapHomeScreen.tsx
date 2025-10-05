@@ -41,6 +41,7 @@ const MapHomeScreen = () => {
         color={colors.WHITE}
       />
       <MapView
+        googleMapId='75c4ced96389b9f59913bce7'
         ref={mapRef} // ref연결
         //초기 위치 설정 (델타와 함께)
         region={{
