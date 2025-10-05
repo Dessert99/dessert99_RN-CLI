@@ -6,22 +6,48 @@ import FontAwesome6 from "@react-native-vector-icons/fontawesome6";
 
 import MapView, { LatLng, PROVIDER_GOOGLE } from "react-native-maps";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const MapHomeScreen = () => {
   const inset = useSafeAreaInsets(); // 노치 영역 길이 구하기
-  const [userLocation, setUserLocation] = useState<LatLng>(); //사용자 위치
-  const [useLocationError, setUserLocationError] = useState(false);
+  const [userLocation, setUserLocation] = useState<LatLng>({
+    latitude: 37.5962,
+    longitude: 127.0553,
+  }); //사용자 위치
+  const [userLocationError, setUserLocationError] = useState(false);
+  const mapRef = useRef<MapView>(null); // 맵 이동을 위한 ref. MapView는 ref가 가리키는 “컴포넌트 인스턴스 타입”이다. MapView의 인스턴스 메서드를 타입 안정성 있게 쓸 수 있다.
+
+  // 지도 카메라를 주어진 좌표로 부드럽게 이동시키는 헬퍼(줌/델타 포함)
+  const moveMapView = (coordinate: LatLng) => {
+    // Region에는 델타라는 것도 보내줘야 한다. (델타 = 지도의 확대 정도)
+    mapRef.current?.animateToRegion({
+      ...coordinate,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    });
+  };
+
+  // "내 위치" 버튼 눌렀을 때: 권한/에러 확인 후 사용자 위치로 이동 핸들러
+  const handlePressUserLocation = () => {
+    if (userLocationError) {
+      //위치 권한을 허용해주세요.
+      return;
+    }
+    moveMapView(userLocation);
+  };
+
   useEffect(() => {
-    // 1. 성공시 내 위치 2. 에러 상황 3. 옵션
     Geolocation.getCurrentPosition(
+      //성공
       (info) => {
         console.log("info", info);
         setUserLocation(info.coords);
       },
+      //에러
       () => {
         setUserLocationError(true);
       },
+      //옵션
       {
         enableHighAccuracy: true, // 높은 정확성
       }
@@ -35,13 +61,22 @@ const MapHomeScreen = () => {
         color={colors.WHITE}
       />
       <MapView
+        ref={mapRef} // ref연결
+        //초기 위치 설정 (델타와 함께)
+        region={{
+          ...userLocation,
+          latitudeDelta: 0.0922, //델타
+          longitudeDelta: 0.0421, //델타
+        }}
         style={styles.container}
         provider={PROVIDER_GOOGLE}
       />
       <View
         style={styles.buttonList} //앵커. 버튼이 하나라면 Pressable에 해도 된다.
       >
-        <Pressable style={styles.mapButton}>
+        <Pressable
+          style={styles.mapButton}
+          onPress={handlePressUserLocation}>
           <FontAwesome6
             name='location-crosshairs'
             iconStyle='solid'
