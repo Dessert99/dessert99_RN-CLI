@@ -63,11 +63,23 @@ const MapHomeScreen = () => {
         onLongPress={({ nativeEvent }) =>
           setSelectLocation(nativeEvent.coordinate)
         }>
-        <CustomMarker
-          coordinate={{ latitude: 37.5962, longitude: 127.0553 }}
-          color={colors.BLUE_400}
-          score={3}
-        />
+        {[
+          {
+            id: 1,
+            color: colors.PINK_400,
+            score: 3,
+            coordinate: {
+              latitude: 37.5962,
+              longitude: 127.0553,
+            },
+          },
+        ].map((marker) => (
+          <CustomMarker
+            key={marker.id}
+            color={marker.color}
+            coordinate={marker.coordinate}
+          />
+        ))}
 
         {selectLocation && <Marker coordinate={selectLocation} />}
       </MapView>
