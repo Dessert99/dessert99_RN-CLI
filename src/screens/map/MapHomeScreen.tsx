@@ -24,7 +24,7 @@ const MapHomeScreen = () => {
   const mapRef = useRef<MapView>(null); // 맵 이동을 위한 ref. MapView는 ref가 가리키는 “컴포넌트 인스턴스 타입”이다. MapView의 인스턴스 메서드를 타입 안정성 있게 쓸 수 있다.
   const { userLocation, userLocationError } = useUserLocation(); //훅으로 분리
   const [selectLocation, setSelectLocation] = useState<LatLng | null>();
-  const [regionDelta, setRegionDelta] = useState<Delta>();
+  const [regionDelta, setRegionDelta] = useState<Delta>(numbers.INITIAL_DELTA);
 
   usePermission("LOCATION"); // 권한 훅 사용
 
@@ -33,7 +33,7 @@ const MapHomeScreen = () => {
     // Region에는 델타라는 것도 보내줘야 한다. (델타 = 지도의 확대 정도)
     mapRef.current?.animateToRegion({
       ...coordinate,
-      ...numbers.INITIAL_DELTA, // 초기 델타값
+      ...regionDelta,
     });
   };
 
@@ -56,7 +56,10 @@ const MapHomeScreen = () => {
   };
 
   // 지도 영역 변경 감지를 위한 핸들러
-  const handleChangeDelta = (region: Region) => {};
+  const handleChangeDelta = (region: Region) => {
+    const { latitudeDelta, longitudeDelta } = region;
+    setRegionDelta({ latitudeDelta, longitudeDelta });
+  };
 
   return (
     <>
