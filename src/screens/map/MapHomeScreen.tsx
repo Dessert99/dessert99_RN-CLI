@@ -17,12 +17,14 @@ import { usePermission } from "@/hooks/usePermission";
 import Toast from "react-native-toast-message";
 import CustomMarker from "@/components/CustomMarker";
 
+type Delta = Pick<Region, "latitudeDelta" | "longitudeDelta">; //타입 Region에서 특정 속성들만 뽑아서 새로운 타입을 만든다.
+
 const MapHomeScreen = () => {
   const inset = useSafeAreaInsets(); // 노치 영역 길이 구하기
   const mapRef = useRef<MapView>(null); // 맵 이동을 위한 ref. MapView는 ref가 가리키는 “컴포넌트 인스턴스 타입”이다. MapView의 인스턴스 메서드를 타입 안정성 있게 쓸 수 있다.
   const { userLocation, userLocationError } = useUserLocation(); //훅으로 분리
   const [selectLocation, setSelectLocation] = useState<LatLng | null>();
-  const [regionDelta, setRegionDelta] = useState();
+  const [regionDelta, setRegionDelta] = useState<Delta>();
 
   usePermission("LOCATION"); // 권한 훅 사용
 
