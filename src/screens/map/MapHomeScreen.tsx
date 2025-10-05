@@ -1,12 +1,32 @@
 import DrawerButton from "@/components/DrawerButton";
 import { colors } from "@/constants/colors";
 import { StyleSheet } from "react-native";
+import Geolocation from "@react-native-community/geolocation";
 
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { LatLng, PROVIDER_GOOGLE } from "react-native-maps";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useEffect, useState } from "react";
 
 const MapHomeScreen = () => {
   const inset = useSafeAreaInsets(); // 노치 영역 길이 구하기
+  const [userLocation, setUserLocation] = useState<LatLng>(); //사용자 위치
+  const [useLocationError, setUserLocationError] = useState(false);
+  useEffect(() => {
+    // 1. 성공시 내 위치 2. 에러 상황 3. 옵션
+    Geolocation.getCurrentPosition(
+      (info) => {
+        console.log("info", info);
+        setUserLocation(info.coords);
+      },
+      () => {
+        setUserLocationError(true);
+      },
+      {
+        enableHighAccuracy: true, // 높은 정확성
+      }
+    );
+  }, []);
+
   return (
     <>
       <DrawerButton
