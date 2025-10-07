@@ -2,6 +2,7 @@ import CustomButton from "@/components/CustomButton";
 import InputField from "@/components/InputField";
 import useForm from "@/hooks/useForm";
 import { useGetAddress } from "@/hooks/useGetAddress";
+import DatePicker from "react-native-date-picker";
 
 // 네비게이션 스택에 정의된 타입(화면 목록과 각 화면의 params 타입)
 import { MapStackParamList } from "@/types/navigation";
@@ -11,6 +12,7 @@ import { validateAddPost } from "@/utils/validation";
 import { StackScreenProps } from "@react-navigation/stack";
 import { StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import { useState } from "react";
 
 // 현재 화면("AddLocation")이 받을 수 있는 route 파라미터의 타입을 지정
 type Props = StackScreenProps<MapStackParamList, "AddLocation">;
@@ -22,9 +24,11 @@ const AddLocationScreen = ({ route }: Props) => {
     initailValue: {
       title: "",
       description: "",
+      date: new Date(),
     },
     validate: validateAddPost,
   });
+  const [openDate, setOpenDate] = useState(false);
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <InputField
@@ -34,6 +38,7 @@ const AddLocationScreen = ({ route }: Props) => {
       <CustomButton
         label='날짜 선택'
         variant='outlined'
+        onPress={() => setOpenDate(true)} // DatePicker 모달 열기
       />
       <InputField
         placeholder='제목을 입력해주세요.'
@@ -47,6 +52,17 @@ const AddLocationScreen = ({ route }: Props) => {
         error={postForm.errors.description}
         touched={postForm.touched.description}
         {...postForm.getTextInputProps("description")}
+      />
+      <DatePicker
+        modal
+        locale='ko'
+        mode='date'
+        title={null}
+        confirmText='완료'
+        cancelText='취소'
+        date={postForm.values.date}
+        open={openDate}
+        onCancel={() => setOpenDate(false)}
       />
     </ScrollView>
   );
