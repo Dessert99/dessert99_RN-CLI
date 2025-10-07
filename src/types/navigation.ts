@@ -1,9 +1,10 @@
 import { NavigatorScreenParams } from "@react-navigation/native";
+import { LatLng } from "react-native-maps";
 
-// Map스택 타입
+// Map스택 타입 : Stack 네비게이션에서 사용할 “화면 이름과 전달될 파라미터 타입”을 정의
 export type MapStackParamList = {
   MapHome: undefined;
-  AddLocation: undefined;
+  AddLocation: { location: LatLng }; // AddLocation으로 이동 시 필수 파라미터: 추가할 위치 좌표(LatLng)
   SearchLocation: undefined;
 };
 
