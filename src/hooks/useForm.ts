@@ -16,8 +16,9 @@ function useForm<T>({ initailValue, validate }: UseFormProps<T>) {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   //
-  const handleChangeValue = (name: keyof T, text: string) => {
-    setValues((prev) => ({ ...prev, [name]: text })); // 불변 업데이트 : 기존 상태는 펼쳐두고 변경된 부분만 수정
+  const handleChangeValue = (name: keyof T, value: string | number | Date) => {
+    // Date, number도 받을 수 있게 수정
+    setValues((prev) => ({ ...prev, [name]: value })); // 불변 업데이트 : 기존 상태는 펼쳐두고 변경된 부분만 수정
   };
 
   // 선택 유효성 검사
