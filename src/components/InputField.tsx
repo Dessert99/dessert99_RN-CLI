@@ -22,7 +22,11 @@ const InputField = ({ ref, error, touched, ...props }: InputFieldProps) => {
         autoCapitalize='none' // 자동 대문자화를 끈다.
         spellCheck={false} // ios에서 맞춤법 밑줄 비활성
         autoCorrect={false} // 자동 교정/제안 끔
-        style={[styles.input, touched && Boolean(error) && styles.inputError]}
+        style={[
+          styles.input,
+          props.multiline && styles.multiline, // multiline 전용 스타일
+          touched && Boolean(error) && styles.inputError,
+        ]}
         {...props}
       />
       {touched && Boolean(error) && <Text style={styles.error}>{error}</Text>}
@@ -50,5 +54,10 @@ const styles = StyleSheet.create({
   inputError: {
     borderWidth: 1,
     borderColor: colors.RED_500,
+  },
+  multiline: {
+    height: 150,
+    paddingVertical: 10,
+    textAlignVertical: "top", // 안드로이드에서 입력을 상단부터 시작할 수 있다.
   },
 });
