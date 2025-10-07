@@ -7,3 +7,17 @@ export function getDateDetail(dateString: string | Date) {
 
   return { year, month, day };
 }
+
+// 구분자를 받아서 날짜를 표시하는 함수
+export function getDateWithSeparator(
+  dateString: string | Date,
+  separator: string = ""
+) {
+  const { year, month, day } = getDateDetail(dateString);
+
+  return [
+    year,
+    String(month).padStart(2, "0"), // 문자열의 길이가 2글자가 될 때까지 왼쪽을 "0"으로 채운다.
+    String(day).padStart(2, "0"),
+  ].join(separator); //구분자로 합치기
+}
