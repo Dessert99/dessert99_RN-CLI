@@ -42,4 +42,19 @@ function validateSignUp(values: {
   return errors;
 }
 
-export { validateLogin, validateSignUp };
+//입력을 해야 넘어갈 수 있는 유효성 검사
+function validateAddPost(values: { title: string }) {
+  const errors = {
+    title: "",
+    description: "",
+  };
+
+  // 제목이 빈 문자열이면 에러 추가
+  if (values.title.trim() === "") {
+    errors.title = "제목은 1~30자 이내로 입력해주세요.";
+  }
+
+  return errors;
+}
+
+export { validateLogin, validateSignUp, validateAddPost };
