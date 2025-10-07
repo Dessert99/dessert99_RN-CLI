@@ -12,6 +12,7 @@ import { usePermission } from "@/hooks/usePermission";
 import Toast from "react-native-toast-message";
 import CustomMarker from "@/components/CustomMarker";
 import { useMoveMapView } from "@/hooks/useMoveMapView";
+import MapIconButton from "@/components/MapIconButton";
 
 const MapHomeScreen = () => {
   const inset = useSafeAreaInsets(); // 노치 영역 길이 구하기
@@ -21,6 +22,11 @@ const MapHomeScreen = () => {
 
   const { mapRef, moveMapView, handleChangeDelta } = useMoveMapView();
   usePermission("LOCATION"); // 권한 훅 사용
+
+  // 마커 클릭 핸들러
+  const handlePressMarker = (coordinate: LatLng) => {
+    moveMapView(coordinate);
+  };
 
   // "내 위치" 버튼 눌렀을 때: 권한/에러 확인 후 사용자 위치로 이동 핸들러
   const handlePressUserLocation = () => {
@@ -35,10 +41,8 @@ const MapHomeScreen = () => {
     moveMapView(userLocation);
   };
 
-  // 마커 클릭 핸들러
-  const handlePressMarker = (coordinate: LatLng) => {
-    moveMapView(coordinate);
-  };
+  // 장소 추가 핸들러
+  const handlePressAddPost = () => {};
 
   return (
     <>
@@ -105,16 +109,14 @@ const MapHomeScreen = () => {
       <View
         style={styles.buttonList} //앵커. 버튼이 하나라면 Pressable에 해도 된다.
       >
-        <Pressable
-          style={styles.mapButton}
-          onPress={handlePressUserLocation}>
-          <FontAwesome6
-            name='location-crosshairs'
-            iconStyle='solid'
-            size={25}
-            color={colors.WHITE}
-          />
-        </Pressable>
+        <MapIconButton
+          name='plus'
+          onPress={handlePressAddPost}
+        />
+        <MapIconButton
+          name='location-crosshairs'
+          onPress={handlePressUserLocation}
+        />
       </View>
     </>
   );
@@ -141,16 +143,6 @@ const styles = StyleSheet.create({
     bottom: 30,
     right: 20,
     zIndex: 1,
-  },
-  mapButton: {
-    backgroundColor: colors.PINK_700,
-    height: 45,
-    width: 45,
-    margin: 10,
-    borderRadius: 45,
-    justifyContent: "center",
-    alignItems: "center",
-    boxShadow: "1px 1px 3px rgba(0,0,0, 0.5)",
   },
 });
 
