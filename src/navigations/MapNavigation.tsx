@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import MapHomeScreen from "../screens/map/MapHomeScreen";
 import AddLocationScreen from "../screens/map/AddLocationScreen";
 import SearchLocationScreen from "../screens/map/SearchLocationScreen";
+import { colors } from "@/constants/colors";
 
 // 이번에는 스택에 쌓으면서 네비게이션을 한 번에 만들어보자.
 export const MapStack = createStackNavigator({
@@ -32,6 +33,12 @@ export const MapStack = createStackNavigator({
     },
     AddLocation: {
       screen: AddLocationScreen,
+      options: {
+        title: "장소 추가",
+        cardStyle: {
+          backgroundColor: colors.WHITE,
+        },
+      },
     },
     SearchLocation: {
       screen: SearchLocationScreen,
