@@ -15,7 +15,7 @@ import { ScrollView } from "react-native-gesture-handler";
 type Props = StackScreenProps<MapStackParamList, "AddLocation">;
 
 const AddLocationScreen = ({ route }: Props) => {
-  const location = route.params;
+  const { location } = route.params;
   const postForm = useForm({
     initailValue: {
       title: "",
