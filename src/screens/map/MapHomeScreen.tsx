@@ -1,6 +1,6 @@
 import DrawerButton from "@/components/DrawerButton";
 import { colors } from "@/constants/colors";
-import { StyleSheet, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 
 import MapView, { LatLng, Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -12,14 +12,18 @@ import Toast from "react-native-toast-message";
 import CustomMarker from "@/components/CustomMarker";
 import { useMoveMapView } from "@/hooks/useMoveMapView";
 import MapIconButton from "@/components/MapIconButton";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { MapStackParamList } from "@/types/navigation";
+
+type Navigation = StackNavigationProp<MapStackParamList>; // MapStackParamList를 기반으로, useNavigation() 훅이 어떤 화면 이름과 params를 쓸 수 있는지 알려주는 타입 생성
 
 const MapHomeScreen = () => {
   const inset = useSafeAreaInsets(); // 노치 영역 길이 구하기
-
   const { userLocation, userLocationError } = useUserLocation(); //훅으로 분리
   const [selectLocation, setSelectLocation] = useState<LatLng | null>();
-
   const { mapRef, moveMapView, handleChangeDelta } = useMoveMapView();
+  const navigation = useNavigation<Navigation>(); //any로 처리되는 걸 방지하고, 안전하게 네비게이션 함수 사용 가능
   usePermission("LOCATION"); // 권한 훅 사용
 
   // 마커 클릭 핸들러
@@ -41,7 +45,20 @@ const MapHomeScreen = () => {
   };
 
   // 장소 추가 핸들러
-  const handlePressAddPost = () => {};
+  const handlePressAddPost = () => {
+    if (!selectLocation) {
+      Alert.alert(
+        "추가할 위치를 선택해주세요.",
+        "지도를 길게 누르면 위치가 선택됩니다."
+      );
+      return;
+    }
+
+    // 선택한 위치를 props로 넘기며 화면 이동
+    navigation.navigate("AddLocation", {
+      location: selectLocation,
+    });
+  };
 
   return (
     <>
