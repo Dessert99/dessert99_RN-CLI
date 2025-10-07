@@ -62,6 +62,9 @@ const AddLocationScreen = ({ route }: Props) => {
         cancelText='취소'
         date={postForm.values.date}
         open={openDate}
+        onConfirm={(date) => {
+          postForm.onChange("date", date);
+        }}
         onCancel={() => setOpenDate(false)}
       />
     </ScrollView>

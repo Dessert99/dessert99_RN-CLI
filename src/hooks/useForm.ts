@@ -43,7 +43,13 @@ function useForm<T>({ initailValue, validate }: UseFormProps<T>) {
     console.log(newErrors);
   }, [validate, values]);
 
-  return { values, touched, errors, getTextInputProps };
+  return {
+    values,
+    touched,
+    errors,
+    getTextInputProps,
+    onChange: handleChangeValue, //onChange는 getTextInputProps()가 커버하지 못하는 입력(예: 날짜 선택, 스위치 토글 등)을 직접 제어할 수 있도록 외부에 노출한 헬퍼 함수
+  };
 }
 
 export default useForm;
