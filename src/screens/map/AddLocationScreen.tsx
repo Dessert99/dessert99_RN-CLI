@@ -13,6 +13,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useState } from "react";
+import { getDateWithSeparator } from "@/utils/date";
 
 // 현재 화면("AddLocation")이 받을 수 있는 route 파라미터의 타입을 지정
 type Props = StackScreenProps<MapStackParamList, "AddLocation">;
@@ -36,7 +37,7 @@ const AddLocationScreen = ({ route }: Props) => {
         value={address}
       />
       <CustomButton
-        label='날짜 선택'
+        label={getDateWithSeparator(postForm.values.date, ". ")} // 날짜 선택하면 변경
         variant='outlined'
         onPress={() => setOpenDate(true)} // DatePicker 모달 열기
       />
