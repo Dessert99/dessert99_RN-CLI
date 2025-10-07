@@ -1,6 +1,7 @@
 import CustomButton from "@/components/CustomButton";
 import InputField from "@/components/InputField";
 import useForm from "@/hooks/useForm";
+import { useGetAddress } from "@/hooks/useGetAddress";
 
 // 네비게이션 스택에 정의된 타입(화면 목록과 각 화면의 params 타입)
 import { MapStackParamList } from "@/types/navigation";
@@ -16,6 +17,7 @@ type Props = StackScreenProps<MapStackParamList, "AddLocation">;
 
 const AddLocationScreen = ({ route }: Props) => {
   const { location } = route.params;
+  const address = useGetAddress(location); // 역지오코딩
   const postForm = useForm({
     initailValue: {
       title: "",
@@ -25,7 +27,7 @@ const AddLocationScreen = ({ route }: Props) => {
   });
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <InputField />
+      <InputField value={address} />
       <CustomButton
         label='날짜 선택'
         variant='outlined'
