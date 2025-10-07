@@ -1,7 +1,6 @@
 import DrawerButton from "@/components/DrawerButton";
 import { colors } from "@/constants/colors";
-import { StyleSheet, View, Pressable } from "react-native";
-import FontAwesome6 from "@react-native-vector-icons/fontawesome6";
+import { StyleSheet, View } from "react-native";
 
 import MapView, { LatLng, Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { useSafeAreaInsets } from "react-native-safe-area-context";

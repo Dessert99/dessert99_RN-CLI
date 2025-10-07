@@ -1,6 +1,6 @@
 import { colors } from "@/constants/colors";
 import FontAwesome6 from "@react-native-vector-icons/fontawesome6";
-import React, { ComponentProps } from "react";
+import { ComponentProps } from "react";
 import { Pressable, StyleSheet } from "react-native";
 
 // name은 FontAwesome6에 존재하는 이름으로 만든다.
