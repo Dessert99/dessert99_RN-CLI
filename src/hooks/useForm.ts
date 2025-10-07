@@ -28,7 +28,7 @@ function useForm<T>({ initailValue, validate }: UseFormProps<T>) {
 
   //텍스트 인풋 props를 묶어서 리턴
   const getTextInputProps = (name: keyof T) => {
-    const value = values[name];
+    const value = values[name] as string; // getTextInputProps는 string 입력 필드에서만 쓴다. 다른 타입(Date, number 등)은 onChange로 직접 제어한다.
     const onChangeText = (value: string) => handleChangeValue(name, value);
     const onBlur = () => {
       handleBlur(name);
