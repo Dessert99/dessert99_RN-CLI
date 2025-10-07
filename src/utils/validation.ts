@@ -47,6 +47,7 @@ function validateAddPost(values: { title: string }) {
   const errors = {
     title: "",
     description: "",
+    date: "",
   };
 
   // 제목이 빈 문자열이면 에러 추가
