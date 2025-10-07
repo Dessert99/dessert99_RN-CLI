@@ -12,9 +12,16 @@ interface InputFieldProps extends TextInputProps {
   ref?: Ref<TextInput>; // ref를 Props로 넘겨주기
   error?: string;
   touched?: boolean;
+  disabled?: boolean;
 }
 
-const InputField = ({ ref, error, touched, ...props }: InputFieldProps) => {
+const InputField = ({
+  ref,
+  error,
+  touched,
+  disabled = false,
+  ...props
+}: InputFieldProps) => {
   return (
     <View>
       <TextInput
@@ -25,9 +32,11 @@ const InputField = ({ ref, error, touched, ...props }: InputFieldProps) => {
         autoCorrect={false} // 자동 교정/제안 끔
         style={[
           styles.input,
+          disabled && styles.disabled, //disabled 전용 스타일
           props.multiline && styles.multiline, // multiline 전용 스타일
           touched && Boolean(error) && styles.inputError,
         ]}
+        editable={!disabled} // disabled props가 있다면 수정 불가 옵션 추가
         {...props}
       />
       {touched && Boolean(error) && <Text style={styles.error}>{error}</Text>}
@@ -60,5 +69,9 @@ const styles = StyleSheet.create({
     height: 150,
     paddingVertical: 10,
     textAlignVertical: "top", // 안드로이드에서 입력을 상단부터 시작할 수 있다.
+  },
+  disabled: {
+    backgroundColor: colors.GRAY_200,
+    color: colors.GRAY_700,
   },
 });
