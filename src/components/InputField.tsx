@@ -19,6 +19,7 @@ const InputField = ({ ref, error, touched, ...props }: InputFieldProps) => {
     <View>
       <TextInput
         ref={ref}
+        placeholderTextColor={colors.GRAY_500}
         autoCapitalize='none' // 자동 대문자화를 끈다.
         spellCheck={false} // ios에서 맞춤법 밑줄 비활성
         autoCorrect={false} // 자동 교정/제안 끔
