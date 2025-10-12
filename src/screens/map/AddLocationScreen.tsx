@@ -62,6 +62,7 @@ const AddLocationScreen = ({ route }: Props) => {
       <MarkerColorInput
         color={postForm.values.color}
         onChangeColor={(value) => postForm.onChange("color", value)}
+        score={postForm.values.score}
       />
       <SliderInput
         score={postForm.values.score}

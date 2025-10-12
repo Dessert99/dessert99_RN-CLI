@@ -4,10 +4,15 @@ import CustomMarker from "./CustomMarker";
 
 interface MarkerColorInputProps {
   color: string;
+  score: number;
   onChangeColor: (value: string) => void; // 색상을 변경하는 함수
 }
 
-function MarkerColorInput({ color, onChangeColor }: MarkerColorInputProps) {
+function MarkerColorInput({
+  color,
+  score,
+  onChangeColor,
+}: MarkerColorInputProps) {
   return (
     <View style={styles.container}>
       <Text style={styles.markerLabel}>마커선택</Text>
@@ -34,6 +39,7 @@ function MarkerColorInput({ color, onChangeColor }: MarkerColorInputProps) {
                 <CustomMarker
                   color={selectcolor}
                   key={selectcolor}
+                  score={score} // 점수를 바로 연결해주면 마커 표정이 바뀐다.
                 />
               </Pressable>
             );
