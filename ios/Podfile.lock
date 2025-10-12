@@ -1991,6 +1991,63 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
+  - react-native-slider (5.0.1):
+    - boost
+    - DoubleConversion
+    - fast_float
+    - fmt
+    - glog
+    - hermes-engine
+    - RCT-Folly
+    - RCT-Folly/Fabric
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-jsi
+    - react-native-slider/common (= 5.0.1)
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - SocketRocket
+    - Yoga
+  - react-native-slider/common (5.0.1):
+    - boost
+    - DoubleConversion
+    - fast_float
+    - fmt
+    - glog
+    - hermes-engine
+    - RCT-Folly
+    - RCT-Folly/Fabric
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - SocketRocket
+    - Yoga
   - react-native-vector-icons-fontawesome6 (12.2.0)
   - react-native-vector-icons-ionicons (12.3.0)
   - React-NativeModulesApple (0.81.1):
@@ -2873,6 +2930,7 @@ DEPENDENCIES:
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - react-native-maps/Google (from `../node_modules/react-native-maps`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
   - "react-native-vector-icons-fontawesome6 (from `../node_modules/@react-native-vector-icons/fontawesome6`)"
   - "react-native-vector-icons-ionicons (from `../node_modules/@react-native-vector-icons/ionicons`)"
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
@@ -3014,6 +3072,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-maps"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-slider:
+    :path: "../node_modules/@react-native-community/slider"
   react-native-vector-icons-fontawesome6:
     :path: "../node_modules/@react-native-vector-icons/fontawesome6"
   react-native-vector-icons-ionicons:
@@ -3142,6 +3202,7 @@ SPEC CHECKSUMS:
   react-native-geolocation: 95e48fe2687e5a8280103085372fa62c2297c5d6
   react-native-maps: 1586d0ab8035cd6c22ae2b25376f2fced6822961
   react-native-safe-area-context: c6e2edd1c1da07bdce287fa9d9e60c5f7b514616
+  react-native-slider: 663776e5683e257de8df8091abc2d93ff6ec67db
   react-native-vector-icons-fontawesome6: 1b667969bef2f430d1d7515163b980b856f58670
   react-native-vector-icons-ionicons: ad07e944a092a5cf71b8b569d8f5ce2bf674c415
   React-NativeModulesApple: eff2eba56030eb0d107b1642b8f853bc36a833ac
