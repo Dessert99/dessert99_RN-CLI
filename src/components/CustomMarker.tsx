@@ -1,9 +1,9 @@
 import { colors } from "@/constants/colors";
 import { StyleSheet, View } from "react-native";
-import { LatLng, MapMarkerProps, Marker } from "react-native-maps";
+import { LatLng, Marker, MyMapMarkerProps } from "react-native-maps";
 
-interface CustomMarkerProps extends MapMarkerProps {
-  coordinate: LatLng;
+interface CustomMarkerProps extends MyMapMarkerProps {
+  coordinate?: LatLng;
   color: string;
   score?: number; // 점수(표정 결정용)
 }
@@ -14,20 +14,27 @@ function CustomMarker({
   score = 5,
   ...props
 }: CustomMarkerProps) {
-  return (
+  // 위치를 받지 않고 CustomMarker를 쓰기 위해 분리
+  const markerView = (
+    <View style={styles.container}>
+      <View style={[styles.marker, { backgroundColor: color }]}>
+        <View style={[styles.eye, styles.leftEye]}></View>
+        <View style={[styles.eye, styles.rightEye]}></View>
+        {score > 3 && <View style={[styles.mouth, styles.good]}></View>}
+        {score < 3 && <View style={[styles.mouth, styles.bad]}></View>}
+        {score === 3 && <View style={[styles.soso]}></View>}
+      </View>
+    </View>
+  );
+
+  return coordinate ? (
     <Marker
       coordinate={coordinate}
       {...props}>
-      <View style={styles.container}>
-        <View style={[styles.marker, { backgroundColor: color }]}>
-          <View style={[styles.eye, styles.leftEye]}></View>
-          <View style={[styles.eye, styles.rightEye]}></View>
-          {score > 3 && <View style={[styles.mouth, styles.good]}></View>}
-          {score < 3 && <View style={[styles.mouth, styles.bad]}></View>}
-          {score === 3 && <View style={[styles.soso]}></View>}
-        </View>
-      </View>
+      {markerView}
     </Marker>
+  ) : (
+    markerView
   );
 }
 
