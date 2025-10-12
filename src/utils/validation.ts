@@ -48,6 +48,7 @@ function validateAddPost(values: { title: string }) {
     title: "",
     description: "",
     date: "",
+    color: "",
   };
 
   // 제목이 빈 문자열이면 에러 추가
