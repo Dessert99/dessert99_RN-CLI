@@ -16,6 +16,7 @@ import { useState } from "react";
 import { getDateWithSeparator } from "@/utils/date";
 import MarkerColorInput from "@/components/MarkerColorInput";
 import { colors } from "@/constants/colors";
+import SliderInput from "@/components/SliderInput";
 
 // 현재 화면("AddLocation")이 받을 수 있는 route 파라미터의 타입을 지정
 type Props = StackScreenProps<MapStackParamList, "AddLocation">;
@@ -29,6 +30,7 @@ const AddLocationScreen = ({ route }: Props) => {
       description: "",
       date: new Date(),
       color: colors.PINK_400,
+      score: 3,
     },
     validate: validateAddPost,
   });
@@ -60,6 +62,10 @@ const AddLocationScreen = ({ route }: Props) => {
       <MarkerColorInput
         color={postForm.values.color}
         onChangeColor={(value) => postForm.onChange("color", value)}
+      />
+      <SliderInput
+        score={postForm.values.score}
+        onChangeScore={(value) => postForm.onChange("score", value)}
       />
       <DatePicker
         modal
