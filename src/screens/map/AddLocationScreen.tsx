@@ -17,11 +17,14 @@ import { getDateWithSeparator } from "@/utils/date";
 import MarkerColorInput from "@/components/MarkerColorInput";
 import { colors } from "@/constants/colors";
 import SliderInput from "@/components/SliderInput";
+import FixedBottomCTA from "@/components/FixedBottomCTA";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 // 현재 화면("AddLocation")이 받을 수 있는 route 파라미터의 타입을 지정
 type Props = StackScreenProps<MapStackParamList, "AddLocation">;
 
 const AddLocationScreen = ({ route }: Props) => {
+  const inset = useSafeAreaInsets();
   const { location } = route.params;
   const address = useGetAddress(location); // 역지오코딩
   const postForm = useForm({
@@ -35,54 +38,70 @@ const AddLocationScreen = ({ route }: Props) => {
     validate: validateAddPost,
   });
   const [openDate, setOpenDate] = useState(false);
+
+  // 폼 제출
+  const handleSubmit = () => {
+    console.log(postForm.values);
+  };
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <InputField
-        disabled
-        value={address}
+    <>
+      <ScrollView
+        contentContainerStyle={[
+          styles.container,
+          { paddingBottom: inset.bottom + 100 }, // 작은 기기에는 폼과 제출 버튼이 겹칠 수도 있으니 충분한 공간 띄우기
+        ]}>
+        <InputField
+          disabled
+          value={address}
+        />
+        <CustomButton
+          label={getDateWithSeparator(postForm.values.date, ". ")} // 날짜 선택하면 변경
+          variant='outlined'
+          onPress={() => setOpenDate(true)} // DatePicker 모달 열기
+        />
+        <InputField
+          placeholder='제목을 입력해주세요.'
+          error={postForm.errors.title}
+          touched={postForm.touched.title}
+          {...postForm.getTextInputProps("title")}
+        />
+        <InputField
+          placeholder='기록하고 싶은 내용을 입력하세요. (선택)'
+          multiline //여러 줄 입력 가능
+          error={postForm.errors.description}
+          touched={postForm.touched.description}
+          {...postForm.getTextInputProps("description")}
+        />
+        <MarkerColorInput
+          color={postForm.values.color}
+          onChangeColor={(value) => postForm.onChange("color", value)}
+          score={postForm.values.score}
+        />
+        <SliderInput
+          score={postForm.values.score}
+          onChangeScore={(value) => postForm.onChange("score", value)}
+        />
+        <DatePicker
+          modal
+          locale='ko'
+          mode='date'
+          title={null}
+          confirmText='완료'
+          cancelText='취소'
+          date={postForm.values.date}
+          open={openDate}
+          onConfirm={(date) => {
+            postForm.onChange("date", date);
+          }}
+          onCancel={() => setOpenDate(false)}
+        />
+      </ScrollView>
+      <FixedBottomCTA
+        label='제출'
+        onPress={handleSubmit}
       />
-      <CustomButton
-        label={getDateWithSeparator(postForm.values.date, ". ")} // 날짜 선택하면 변경
-        variant='outlined'
-        onPress={() => setOpenDate(true)} // DatePicker 모달 열기
-      />
-      <InputField
-        placeholder='제목을 입력해주세요.'
-        error={postForm.errors.title}
-        touched={postForm.touched.title}
-        {...postForm.getTextInputProps("title")}
-      />
-      <InputField
-        placeholder='기록하고 싶은 내용을 입력하세요. (선택)'
-        multiline //여러 줄 입력 가능
-        error={postForm.errors.description}
-        touched={postForm.touched.description}
-        {...postForm.getTextInputProps("description")}
-      />
-      <MarkerColorInput
-        color={postForm.values.color}
-        onChangeColor={(value) => postForm.onChange("color", value)}
-        score={postForm.values.score}
-      />
-      <SliderInput
-        score={postForm.values.score}
-        onChangeScore={(value) => postForm.onChange("score", value)}
-      />
-      <DatePicker
-        modal
-        locale='ko'
-        mode='date'
-        title={null}
-        confirmText='완료'
-        cancelText='취소'
-        date={postForm.values.date}
-        open={openDate}
-        onConfirm={(date) => {
-          postForm.onChange("date", date);
-        }}
-        onCancel={() => setOpenDate(false)}
-      />
-    </ScrollView>
+    </>
   );
 };
 
